@@ -356,10 +356,10 @@ public class BTree implements  Tree {
     }
     public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, 800, 600);
-        drawNode(gc, root, 400, 50, 200);
+        drawNode(gc, root, 400, 50, 200,true);
     }
 
-    private void drawNode(GraphicsContext gc, BTreeNode node, double x, double y, double offset) {
+    private void drawNode(GraphicsContext gc, BTreeNode node, double x, double y, double offset,boolean isleft) {
         final double NODE_RADIUS = 20;
         final double LEVEL_GAP = 70;
         if (node == null) return;//Caso base
@@ -373,19 +373,21 @@ public class BTree implements  Tree {
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(12));
         gc.fillText(node.data.toString(), x - NODE_RADIUS / 2, y + 5);
+        if (isleft)
+            gc.fillText(node.path, x -NODE_RADIUS-7, y + NODE_RADIUS+10);
 
         //Recursividad
         if (node.left != null) {//Lado izquierdo
             double childX = x - offset;
             double childY = y + LEVEL_GAP;
             gc.strokeLine(x, y + NODE_RADIUS, childX, childY - NODE_RADIUS);
-            drawNode(gc, node.left, childX, childY, offset / 2);
+            drawNode(gc, node.left, childX, childY, offset/2,true);
         }
         if (node.right != null) {//Lado derecho
             double childX = x + offset;
             double childY = y + LEVEL_GAP;
             gc.strokeLine(x, y + NODE_RADIUS, childX, childY - NODE_RADIUS);
-            drawNode(gc, node.right, childX, childY, offset / 2);
+            drawNode(gc, node.right, childX, childY, offset/2,false);
         }
     }
     public void drawLevels(GraphicsContext gc,double width) throws TreeException {
