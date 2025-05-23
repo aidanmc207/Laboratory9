@@ -9,7 +9,6 @@ import java.util.Random;
 public class BTreeDrawer {
     private static final double NODE_RADIUS = 20;
     private static final double LEVEL_GAP = 70;
-    private static final double HORIZONTAL_GAP = 40;
     private int visitCounter;
 
     private Random random = new Random();
@@ -63,30 +62,27 @@ public class BTreeDrawer {
         drawPreOrderNode(gc, root, 400, 50, 200);
     }
 
-    public void drawInOrder(GraphicsContext gc, BTreeNode root) {
-        gc.clearRect(0, 0, 800, 600);
-        visitCounter = 1;
-        drawInOrderNode(gc, root, 400, 50, 200);
-    }
-
-    public void drawPostOrder(GraphicsContext gc, BTreeNode root) {
-        gc.clearRect(0, 0, 800, 600);
-        visitCounter = 1;
-        drawPostOrderNode(gc, root, 400, 50, 200);
-    }
-
     private void drawPreOrderNode(GraphicsContext gc, BTreeNode node, double x, double y, double offset) {
         if (node == null) return;
 
-        drawNodeWithNumber(gc, node, x, y, visitCounter++);
+        // Primero dibujamos las conexiones
         drawConnections(gc, node, x, y, offset);
+        // Luego dibujamos el nodo actual con su número
+        drawNodeWithNumber(gc, node, x, y, visitCounter++);
 
+        // Finalmente procesamos los hijos
         if (node.left != null) {
             drawPreOrderNode(gc, node.left, x - offset, y + LEVEL_GAP, offset / 2);
         }
         if (node.right != null) {
             drawPreOrderNode(gc, node.right, x + offset, y + LEVEL_GAP, offset / 2);
         }
+    }
+
+    public void drawInOrder(GraphicsContext gc, BTreeNode root) {
+        gc.clearRect(0, 0, 800, 600);
+        visitCounter = 1;
+        drawInOrderNode(gc, root, 400, 50, 200);
     }
 
     private void drawInOrderNode(GraphicsContext gc, BTreeNode node, double x, double y, double offset) {
@@ -105,6 +101,12 @@ public class BTreeDrawer {
         }
     }
 
+    public void drawPostOrder(GraphicsContext gc, BTreeNode root) {
+        gc.clearRect(0, 0, 800, 600);
+        visitCounter = 1;
+        drawPostOrderNode(gc, root, 400, 50, 200);
+    }
+
     private void drawPostOrderNode(GraphicsContext gc, BTreeNode node, double x, double y, double offset) {
         if (node == null) return;
 
@@ -121,16 +123,28 @@ public class BTreeDrawer {
     }
 
     private void drawNodeWithNumber(GraphicsContext gc, BTreeNode node, double x, double y, int order) {
+        // Dibuja el círculo del nodo
         Color color = Color.LIGHTBLUE;
         gc.setFill(color);
         gc.fillOval(x - NODE_RADIUS, y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
         gc.setStroke(Color.BLACK);
         gc.strokeOval(x - NODE_RADIUS, y - NODE_RADIUS, NODE_RADIUS * 2, NODE_RADIUS * 2);
+
         gc.setFill(Color.BLACK);
         gc.setFont(new Font(12));
-        gc.fillText(node.data.toString(), x - NODE_RADIUS / 2, y + 5);
-        gc.fillText(String.valueOf(order), x + NODE_RADIUS + 5, y + 5);
-    }
+        String dataText = node.data.toString();
+        gc.fillText(dataText, x - NODE_RADIUS / 2, y + 5);
+
+        String orderText = String.valueOf(order);
+        double orderX = x + NODE_RADIUS + 5;
+        double orderY = y;
+        
+        // Añade un pequeño círculo blanco detrás del número
+        gc.setFill(Color.WHITE);
+        gc.fillOval(orderX - 2, orderY - 8, 20, 20);
+        gc.setFill(Color.BLACK);
+        gc.fillText(orderText, orderX, orderY + 5);
+}
 
     private void drawConnections(GraphicsContext gc, BTreeNode node, double x, double y, double offset) {
         if (node.left != null) {
