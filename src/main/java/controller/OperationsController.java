@@ -43,7 +43,7 @@ public class OperationsController {
 
         if (newVAlue != 0) {
             bTree.add(newVAlue);
-            bTreeDrawer.draw(treeCanvas.getGraphicsContext2D(), bTree.getRoot());
+            bTreeDrawer.draw(treeCanvas.getGraphicsContext2D(),bTree.getRoot());
         } else
             mostrarAlerta("El valor no se puede añadir");
 
