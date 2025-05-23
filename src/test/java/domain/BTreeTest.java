@@ -109,7 +109,11 @@ class BTreeTest {
         for (int i = 0; i < 30; i++) {
             bTree.add(util.Utility.random(50));
         }
-        System.out.println(bTree+"\n");
+        try {
+            System.out.println(bTree+"\n" + bTree.printSubTree());
+        } catch (TreeException e) {
+            throw new RuntimeException(e);
+        }
     }
     @Test
     void totalLeaves(){

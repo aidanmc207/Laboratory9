@@ -10,8 +10,10 @@ import javafx.scene.control.Alert;
 import javax.swing.*;
 
 public class OperationsController {
+
     private BTreeDrawer bTreeDrawer;
     private BTree bTree;
+
     @javafx.fxml.FXML
     private Canvas treeCanvas;
 
