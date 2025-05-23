@@ -168,10 +168,16 @@ public class BTree implements  Tree {
     }
 
     private int height(BTreeNode node) {
-        if (node==null) return -1;
-        else return Math.max(height(node.left),
-                height(node.right)) + 1;
+        if (node == null) {
+            return -1;
+        }
+
+        int leftHeight = height(node.left);
+        int rightHeight = height(node.right);
+
+        return Math.max(leftHeight, rightHeight) + 1;
     }
+
 
     @Override
     public Object min() throws TreeException {
@@ -319,6 +325,10 @@ public class BTree implements  Tree {
                 counter++;
         }
         return counter;
+    }
+
+    public BTreeNode getRoot() {
+        return this.root;
     }
 
 }
