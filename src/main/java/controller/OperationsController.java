@@ -24,6 +24,13 @@ public class OperationsController {
 
     @javafx.fxml.FXML
     public void nodeHeightOnAction(ActionEvent actionEvent) {
+        int value = treeInput("Ingrese un valor para buscar su tamaño", "Tamaño del nodo");
+        try {
+            int totalHeight = bTree.height(value);
+            mostrarAlerta("La altura total del arbol es: " + totalHeight + "");
+        } catch (TreeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @javafx.fxml.FXML

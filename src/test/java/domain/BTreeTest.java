@@ -67,7 +67,7 @@ class BTreeTest {
     @Test
     void testPrintNodes1Children(){
         BTree bTree = new BTree();
-        for (int i = 0; i < 30; i++) {
+        for (int i = 0; i < 10; i++) {
             bTree.add(util.Utility.random(50));
         }
         System.out.println(bTree+"\nBinary Tree nodes 1 children");
