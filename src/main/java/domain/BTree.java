@@ -303,12 +303,19 @@ public class BTree implements  Tree {
         return printNodes1Child(root);
     }
     private String printNodes1Child(BTreeNode node) {
+        String result = "";
         if (node == null)
-            return "";
+            return result;
         else {
-
+            if (node.left != null && node.right == null) {
+                result += node.data + " " + printNodes1Child(node.left);
+            } else if (node.left == null && node.right != null) {
+                result += node.data + " " + printNodes1Child(node.right);
+            } else if (node.left != null && node.right != null) {
+                result += printNodes1Child(node.left) + printNodes1Child(node.right);
+            }
         }
-        return "";
+        return result;
     }
 
     public String printNodes2Children() throws TreeException {
