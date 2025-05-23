@@ -14,7 +14,6 @@ public class OperationsController {
     private BTree bTree;
     @javafx.fxml.FXML
     private Canvas treeCanvas;
-    //private Canvas treeCanvas;
 
     @javafx.fxml.FXML
     public void initialize() {
@@ -35,19 +34,41 @@ public class OperationsController {
 
     @javafx.fxml.FXML
     public void removeOnAction(ActionEvent actionEvent) {
+        int removeValue = treeInput("Ingrese un valor para eliminar", "Valor a eliminar");
+        try {
+            boolean exists = bTree.contains(removeValue);
+
+            if (exists) {
+                bTree.remove(removeValue);
+                bTreeDrawer.draw(treeCanvas.getGraphicsContext2D(),bTree.getRoot());
+                mostrarAlerta("El valor ["+ removeValue +"] ha sido eliminado");
+            } else
+                mostrarAlerta("El valor ["+ removeValue +"] no se encuentra en el arbol");
+
+        } catch (TreeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @javafx.fxml.FXML
     public void addOnAction(ActionEvent actionEvent) {
-        int newVAlue = treeInput("Ingrese un valor paran añadir al arbol", "Nuevo valor");
+        int newValue = treeInput("Ingrese un valor para añadir al árbol", "Nuevo valor");
 
-        if (newVAlue != 0) {
-            bTree.add(newVAlue);
-            bTreeDrawer.draw(treeCanvas.getGraphicsContext2D(),bTree.getRoot());
-        } else
+        if (newValue != 0) {
+            try {
+                if (bTree.contains(newValue)) {
+                    mostrarAlerta("El valor [" + newValue + "] ya existe en el árbol");
+                } else {
+                    bTree.add(newValue);
+                    bTreeDrawer.draw(treeCanvas.getGraphicsContext2D(), bTree.getRoot());
+                    mostrarAlerta("El valor [" + newValue + "] ha sido añadido correctamente");
+                }
+            } catch (TreeException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
             mostrarAlerta("El valor no se puede añadir");
-
-
+        }
     }
 
     @javafx.fxml.FXML
@@ -58,7 +79,6 @@ public class OperationsController {
 
         //crear arbol con valores random
         for (int i = 0; i < numNodes; i++) {
-            // Generar un valor aleatorio entre 1 y 100
             Integer randomValue = util.Utility.random(100) + 1;
             bTree.add(randomValue);
         }
@@ -76,7 +96,7 @@ public class OperationsController {
             if (found) {
                 mostrarAlerta("El valor ["+ value +"] fue encontrado");
             } else {
-                mostrarAlerta("El valor no fue encontrado");
+                mostrarAlerta("El valor ["+ value +"] no fue encontrado");
             }
 
         } catch (TreeException e) {
