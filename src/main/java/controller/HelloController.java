@@ -44,7 +44,7 @@ public class HelloController {
     }
 
     @FXML
-    public void graphicBTreeOnAction(ActionEvent actionEvent) {
+    public void graphicBTreeOnAction(ActionEvent actionEvent) {loadPage("graphic-Btree.fxml");
     }
 
     @FXML
