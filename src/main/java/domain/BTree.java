@@ -259,11 +259,18 @@ public class BTree implements  Tree {
         return printLeaves(root);
     }
     private String printLeaves(BTreeNode node){
-        if(node==null) return "";
-        else{
-
+        if (node == null) {
+            return "";
         }
-        return ""; //corregir para el retorno correcto
+        //cuando es una hoja
+        if (node.left == null && node.right == null) {
+            return node.data + " ";
+        }
+
+        String leftLeaves = printLeaves(node.left);
+        String rightLeaves = printLeaves(node.right);
+
+        return leftLeaves + rightLeaves;
     }
 
     public String printNodes1Child() throws TreeException {
@@ -285,6 +292,7 @@ public class BTree implements  Tree {
             throw new TreeException("Binary Tree is empty");
         return printNodes2Children(root);
     }
+
     private String printNodes2Children(BTreeNode node) {
         if (node == null)
             return "";
@@ -293,4 +301,24 @@ public class BTree implements  Tree {
         }
         return ""; //corregir para el retorno correcto
     }
+
+    public int totalLeaves() throws TreeException{
+        if(isEmpty())
+            throw new TreeException("Binary Tree is empty");
+        return totalLeaves(root);
+    }
+
+    private int totalLeaves(BTreeNode node){
+        int counter = 0;
+        if(node==null)
+            return 0;
+        else{
+            counter += totalLeaves(node.left);
+            counter += totalLeaves(node.right);
+            if(node.left==null && node.right==null)
+                counter++;
+        }
+        return counter;
+    }
+
 }
