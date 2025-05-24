@@ -54,7 +54,6 @@ public class OperationsController {
     public void addOnAction(ActionEvent actionEvent) {
         int newValue = treeInput("Ingrese un valor para añadir al árbol", "Nuevo valor");
 
-        if (newValue != 0) {
             try {
                 if (bTree.contains(newValue)) {
                     mostrarAlerta("El valor [" + newValue + "] ya existe en el árbol");
@@ -66,9 +65,7 @@ public class OperationsController {
             } catch (TreeException e) {
                 throw new RuntimeException(e);
             }
-        } else {
-            mostrarAlerta("El valor no se puede añadir");
-        }
+
     }
 
     @javafx.fxml.FXML
