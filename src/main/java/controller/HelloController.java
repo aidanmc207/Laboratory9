@@ -41,6 +41,7 @@ public class HelloController {
 
     @FXML
     public void bTreeTourSortOnAction(ActionEvent actionEvent) {
+        loadPage("bTreeTour.fxml");
     }
 
     @FXML

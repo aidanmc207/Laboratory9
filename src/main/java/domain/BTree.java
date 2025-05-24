@@ -308,9 +308,9 @@ public class BTree implements  Tree {
             return result;
         else {
             if (node.left != null && node.right == null) {
-                result += node.data + " " + printNodes1Child(node.left);
+                result += "Node: " + node.data + ". Left son: " + node.left.data + "\n" + printNodes1Child(node.left);
             } else if (node.left == null && node.right != null) {
-                result += node.data + " " + printNodes1Child(node.right);
+                result += "Node: " + node.data + ". Right son: " + node.right.data + "\n" + printNodes1Child(node.right);
             } else if (node.left != null && node.right != null) {
                 result += printNodes1Child(node.left) + printNodes1Child(node.right);
             }
@@ -449,5 +449,48 @@ public class BTree implements  Tree {
         result.append(printNodesWithChildren(node.right));
 
         return result.toString();
+    }
+    public String printSubTree() throws TreeException {
+        if (isEmpty())
+            throw new TreeException("Binary tree is empty");
+        return printSubTree(root);
+    }
+
+    private String printSubTree(BTreeNode node) {
+        String result = "";
+        
+        if (node == null) return result;
+
+        if (node.left != null || node.right != null) {
+            result += "Binary tree - subtree: " + node.data;
+
+            if (node.left != null) {
+                result += getSubTreeNodes(node.left);
+            }
+            if (node.right != null) {
+                result += getSubTreeNodes(node.right);
+            }
+            result += " ";
+        }
+
+        if (node.left != null) {
+            result += printSubTree(node.left);
+        }
+        if (node.right != null) {
+            result += printSubTree(node.right);
+        }
+        
+        return "\n"+result;
+    }
+
+    private String getSubTreeNodes(BTreeNode node) {
+        String result = "";
+        if (node == null) return result;
+    
+        result += ", " + node.data;
+        result += getSubTreeNodes(node.left);
+        result += getSubTreeNodes(node.right);
+    
+      return result;
     }
 }
